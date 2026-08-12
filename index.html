@@ -113,12 +113,15 @@
 </head>
 <body>
 
+    <!-- Hidden audio element for the music track -->
+    <audio id="bgMusic" src="" preload="auto" loop></audio>
+
     <div class="card">
         <div class="snoopy-box">
-            <!-- Universal unblockable image layout -->
-            <img id="snoopyImg" src="https://gstatic.com" alt="Cute Puppy">
+            <!-- Stable starter graphic container -->
+            <img id="snoopyImg" src=""C:\Users\snoop\Downloads\16_Justin_Bieber_-_DAISIES_(mp3.pm).mp3"" alt="Snoopy">
         </div>
-        <h1 id="mainHeading">Would you like to walk with me?</h1>
+        <h1 id="mainHeading">Would you want to walk with me?</h1>
         
         <div class="btn-container">
             <button id="yesBtn">Yes!</button>
@@ -131,14 +134,15 @@
         const noBtn = document.getElementById('noBtn');
         const snoopyImg = document.getElementById('snoopyImg');
         const mainHeading = document.getElementById('mainHeading');
+        const bgMusic = document.getElementById('bgMusic');
 
         let yesScale = 1;
         let noScale = 1;
 
-        // Using official Google Open-Source Animated Vector Assets that never block hotlinking
-        const snoopyWaiting = "https://gstatic.com"; 
-        const snoopyShocked = "https://gstatic.com"; 
-        const snoopyCelebration = "https://gstatic.com"; 
+        // Fully unblocked vector graphics states
+        const snoopyWaiting = "https://iconify.design"; 
+        const snoopyShocked = "https://iconify.design"; 
+        const snoopyCelebration = "https://iconify.design"; 
 
         function rejectOption() {
             snoopyImg.src = snoopyShocked;
@@ -164,11 +168,16 @@
 
         yesBtn.addEventListener('click', () => {
             snoopyImg.src = snoopyCelebration;
-            mainHeading.innerHTML = "YAY! I can't wait! ❤️<br><span style='font-size: 1.2rem; color: #ff758f;'>It's a long distance date!</span>";
+            mainHeading.innerHTML = "YAY! I can't wait! ❤️<br><span style='font-size: 1.2rem; color: #ff758f;'>🎵 Playing: Despacito (Justin Bieber Intro)</span>";
             
             noBtn.style.display = 'none';
             yesBtn.style.transform = 'scale(1.2)';
             yesBtn.disabled = true;
+
+            // Attempting audio playback upon direct click interaction
+            bgMusic.play().catch(error => {
+                console.log("Audio autoplay restriction handled:", error);
+            });
 
             for (let i = 0; i < 40; i++) {
                 setTimeout(createHeart, i * 100);
