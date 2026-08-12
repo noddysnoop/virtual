@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Special Question For You!</title>
     <style>
-        /* Light Pink Soft Aesthetic Theme */
         body {
             margin: 0;
             padding: 0;
@@ -31,7 +30,6 @@
             z-index: 10;
         }
 
-        /* Cute Snoopy Character Display Container */
         .snoopy-box {
             height: 180px;
             display: flex;
@@ -42,6 +40,7 @@
 
         .snoopy-box img {
             height: 100%;
+            max-width: 100%;
             object-fit: contain;
             transition: all 0.3s ease;
         }
@@ -90,7 +89,6 @@
             position: relative;
         }
 
-        /* Floating Hearts Celebration Effect */
         .heart {
             position: absolute;
             color: #ff477e;
@@ -117,8 +115,8 @@
 
     <div class="card">
         <div class="snoopy-box">
-            <!-- Using public animated Snoopy GIFs hosted online -->
-            <img id="snoopyImg" src="https://giphy.com" alt="Happy Snoopy">
+            <!-- New reliable, open-source animated asset image links -->
+            <img id="snoopyImg" src="https://pinimg.com" alt="Happy Snoopy">
         </div>
         <h1 id="mainHeading">Would you like to walk with me?</h1>
         
@@ -137,59 +135,46 @@
         let yesScale = 1;
         let noScale = 1;
 
-        // Snoopy GIFs for states
-        const snoopyWaiting = "https://giphy.com"; // Snoopy happy dance/sit
-        const snoopyShocked = "https://giphy.com"; // Shocked/Worried Snoopy
-        const snoopyCelebration = "https://giphy.com"; // Ultimate happy dancing Snoopy
+        // Swapping to universally accessible CDN image pathways
+        const snoopyWaiting = "https://pinimg.com"; 
+        const snoopyShocked = "https://pinimg.com"; 
+        const snoopyCelebration = "https://pinimg.com"; 
 
-        // Function that triggers when she tries to tap or hover over "No"
         function rejectOption() {
-            // Change Snoopy's reaction to shocked/sad
             snoopyImg.src = snoopyShocked;
 
-            // Make the Yes button grow bigger and bigger
             yesScale += 0.35;
             yesBtn.style.transform = `scale(${yesScale})`;
 
-            // Make the No button shrink smaller and smaller
             if (noScale > 0.3) {
                 noScale -= 0.15;
                 noBtn.style.transform = `scale(${noScale})`;
             }
 
-            // Move the No button to a random spot within the container so she can't catch it
             const randomX = Math.floor(Math.random() * 160) - 80;
             const randomY = Math.floor(Math.random() * 80) - 40;
             noBtn.style.transform += ` translate(${randomX}px, ${randomY}px)`;
         }
 
-        // Event listeners for No button (Both desktop hover and mobile touch)
         noBtn.addEventListener('mouseenter', rejectOption);
         noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Prevents accidental clicking on mobile touch
+            e.preventDefault();
             rejectOption();
         });
 
-        // Event listener for the Yes button victory!
         yesBtn.addEventListener('click', () => {
-            // Update UI elements
             snoopyImg.src = snoopyCelebration;
             mainHeading.innerHTML = "YAY! I can't wait! ❤️<br><span style='font-size: 1.2rem; color: #ff758f;'>It's a long distance date!</span>";
             
-            // Hide the No button entirely
             noBtn.style.display = 'none';
-            
-            // Reset Yes button style back to normal centering
             yesBtn.style.transform = 'scale(1.2)';
             yesBtn.disabled = true;
 
-            // Launch falling heart shower animation
             for (let i = 0; i < 40; i++) {
                 setTimeout(createHeart, i * 100);
             }
         });
 
-        // Function to generate falling decorative hearts
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
