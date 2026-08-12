@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Question For You!</title>
+    <style>
+        /* Light Pink Soft Aesthetic Theme */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #ffe5ec;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        .card {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 30px rgba(255, 182, 193, 0.4);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            border: 3px solid #ffb3c6;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Cute Snoopy Character Display Container */
+        .snoopy-box {
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .snoopy-box img {
+            height: 100%;
+            object-fit: contain;
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            color: #ff477e;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            min-height: 100px;
+            position: relative;
+        }
+
+        button {
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        #yesBtn {
+            background-color: #ff477e;
+            color: white;
+            z-index: 100;
+        }
+
+        #yesBtn:hover {
+            background-color: #ff5c8a;
+            transform: scale(1.05);
+        }
+
+        #noBtn {
+            background-color: #f0f0f0;
+            color: #777;
+            position: relative;
+        }
+
+        /* Floating Hearts Celebration Effect */
+        .heart {
+            position: absolute;
+            color: #ff477e;
+            font-size: 24px;
+            animation: floatUp 3s linear forwards;
+            opacity: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) translateX(var(--randomX)) scale(1.5);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="snoopy-box">
+            <!-- Using public animated Snoopy GIFs hosted online -->
+            <img id="snoopyImg" src="https://giphy.com" alt="Happy Snoopy">
+        </div>
+        <h1 id="mainHeading">Would you like to walk with me?</h1>
+        
+        <div class="btn-container">
+            <button id="yesBtn">Yes!</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const snoopyImg = document.getElementById('snoopyImg');
+        const mainHeading = document.getElementById('mainHeading');
+
+        let yesScale = 1;
+        let noScale = 1;
+
+        // Snoopy GIFs for states
+        const snoopyWaiting = "https://giphy.com"; // Snoopy happy dance/sit
+        const snoopyShocked = "https://giphy.com"; // Shocked/Worried Snoopy
+        const snoopyCelebration = "https://giphy.com"; // Ultimate happy dancing Snoopy
+
+        // Function that triggers when she tries to tap or hover over "No"
+        function rejectOption() {
+            // Change Snoopy's reaction to shocked/sad
+            snoopyImg.src = snoopyShocked;
+
+            // Make the Yes button grow bigger and bigger
+            yesScale += 0.35;
+            yesBtn.style.transform = `scale(${yesScale})`;
+
+            // Make the No button shrink smaller and smaller
+            if (noScale > 0.3) {
+                noScale -= 0.15;
+                noBtn.style.transform = `scale(${noScale})`;
+            }
+
+            // Move the No button to a random spot within the container so she can't catch it
+            const randomX = Math.floor(Math.random() * 160) - 80;
+            const randomY = Math.floor(Math.random() * 80) - 40;
+            noBtn.style.transform += ` translate(${randomX}px, ${randomY}px)`;
+        }
+
+        // Event listeners for No button (Both desktop hover and mobile touch)
+        noBtn.addEventListener('mouseenter', rejectOption);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevents accidental clicking on mobile touch
+            rejectOption();
+        });
+
+        // Event listener for the Yes button victory!
+        yesBtn.addEventListener('click', () => {
+            // Update UI elements
+            snoopyImg.src = snoopyCelebration;
+            mainHeading.innerHTML = "YAY! I can't wait! ❤️<br><span style='font-size: 1.2rem; color: #ff758f;'>It's a long distance date!</span>";
+            
+            // Hide the No button entirely
+            noBtn.style.display = 'none';
+            
+            // Reset Yes button style back to normal centering
+            yesBtn.style.transform = 'scale(1.2)';
+            yesBtn.disabled = true;
+
+            // Launch falling heart shower animation
+            for (let i = 0; i < 40; i++) {
+                setTimeout(createHeart, i * 100);
+            }
+        });
+
+        // Function to generate falling decorative hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.setProperty('--randomX', (Math.random() * 400 - 200) + 'px');
+            heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
